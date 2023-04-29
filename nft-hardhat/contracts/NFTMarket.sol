@@ -11,7 +11,7 @@ contract NFTMarket is ERC721URIStorage{
     constructor() ERC721("Muhammad Abdulwahid", "MAW") {}
 
 
-    function mint1(string calldata tokenURI) public returns(uint256){
+    function createNFT(string calldata tokenURI) public returns(uint256){
         _tokenIDs.increment();
         uint256 currentID = _tokenIDs.current();
         _safeMint(msg.sender, currentID);
