@@ -39,7 +39,6 @@ contract NFTMarket is ERC721URIStorage, Ownable{
     // List NFT
     function listNFT(uint256 tokenID, uint256 price) public {
         require(price > 0, "NFTMarket: Price must be greater than 0");
-        approve(address(this), tokenID);
         transferFrom(msg.sender, address(this), tokenID);
         _listings[tokenID] = NFTListing(price, msg.sender);
 
