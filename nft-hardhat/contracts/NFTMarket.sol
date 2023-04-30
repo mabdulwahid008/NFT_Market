@@ -50,9 +50,8 @@ contract NFTMarket is ERC721URIStorage, Ownable{
         NFTListing memory listing = _listings[tokenID];
         require(listing.price > 0, "NFTMarket: NFT not listed for sale");
         require(msg.value == listing.price, "NFTMarket: Price is incorrect");
-        transferFrom(address(this), msg.sender, tokenID);
-        payable(msg.sender).transfer(listing.price.mul(95).div(100));
-        // payable(listing.address).transfer(listing.price.mul(95).div(100)); // price * 95 / 100; deducting 5% of the price as fee
+        ERC721(address(this)).transferFrom(address(this), msg.sender, tokenID);
+        payable(listing.seller).transfer(listing.price.mul(95).div(100)); // price * 95 / 100; deducting 5% of the price as fee
         clearListing(tokenID);
 
         emit NFTTransfer(tokenID, msg.sender, "", 0);

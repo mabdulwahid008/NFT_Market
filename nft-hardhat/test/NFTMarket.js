@@ -99,6 +99,42 @@ describe("NFTMarket", () => {
         nftMarket.buyNFT(tokenID, {value: 125})
       ).to.be.revertedWith("NFTMarket: Price is incorrect")
     })
+
+    it("Should transfer ownership to the buyer and send the price to the seller", async () => { 
+      const price = 123
+      const sellerProfit = Math.floor(price * 95 / 100)
+      const fee = price - sellerProfit
+      const initialBalanceOfContract = await nftMarket.provider.getBalance(nftMarket.address)
+
+      const tokenID = await createNFTAndList(price)
+      await new Promise((res) => setTimeout(res, 100))
+      
+      const oldBalanceOfSeller = await signer[0].getBalance()
+      const transaction = await nftMarket.connect(signer[1]).buyNFT(tokenID, {value: price})
+      const receipt = await transaction.wait()
+
+      // 95% of the price should be added to the seller balance
+      await new Promise((res) => setTimeout(res, 100))
+      const newBalanceOfSeller = await signer[0].getBalance()
+      const diff = newBalanceOfSeller.sub(oldBalanceOfSeller)
+      expect(diff).to.equal(sellerProfit)
+
+      // 5% of the price should be added to the contract balance
+      const newBalanceOfContract = await nftMarket.provider.getBalance(nftMarket.address)
+      const diffContracctBalance = newBalanceOfContract.sub(initialBalanceOfContract) 
+      expect(diffContracctBalance).to.equal(fee)
+
+      // NFT ownership should be trandfered to the buyer
+      const newOwnerAddress = await nftMarket.ownerOf(tokenID)
+      expect(newOwnerAddress).to.equal(signer[1].address)
+
+      // NFTTransfer event has correct agrs
+      const args = receipt.events[1].args
+      expect(args.tokenID).to.equal(tokenID)
+      expect(args.tokenURI).to.equal("")
+      expect(args.to).to.equal(signer[1].address)
+      expect(args.price).to.equal(0)
+    })
   })
 
 })
