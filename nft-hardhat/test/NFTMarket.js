@@ -137,6 +137,37 @@ describe("NFTMarket", () => {
     })
   })
 
+  describe("Cancel Listing", () => {
+    it("Should revert if NFT not listed for sale", async () => {
+      await expect(
+        nftMarket.cancelListing(9999)
+      ).to.be.revertedWith("NFTMarket: NFT not listed for sale")
+    })
+
+    it("Should revert if not the owner of the nft cancels list", async () => {
+      const tokenID = await createNFTAndList(123);
+      await expect(
+        nftMarket.connect(signer[2]).cancelListing(tokenID)
+      ).to.be.revertedWith("NFTMarket: You are not the owner of NFT")
+    })
+
+    it("Should cancels the listing of token if all requirements are fine", async () => {
+      const tokenID = createNFTAndList(123)
+      const transaction = await nftMarket.cancelListing(tokenID)
+      const receipt = await transaction.wait()
+      const args = receipt.events[1].args
+
+      // Check OwnerShip gets back to the owner
+      const owner = await nftMarket.ownerOf(tokenID)
+      expect(owner).to.equal(signer[0].address)
+
+      // Assert the NFTTransfer event has correct params
+      // expect(args.tokenID).to.equal(tokenID);
+      expect(args.to).to.equal(signer[0].address);
+      expect(args.tokenURI).to.equal("");
+      expect(args.price).to.equal(0);
+    })
+  })
 })
 
 

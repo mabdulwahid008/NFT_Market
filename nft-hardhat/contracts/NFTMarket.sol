@@ -62,7 +62,7 @@ contract NFTMarket is ERC721URIStorage, Ownable{
         NFTListing memory listing = _listings[tokenID];
         require(listing.price > 0, "NFTMarket: NFT not listed for sale");
         require(listing.seller == msg.sender, "NFTMarket: You are not the owner of NFT");
-        transferFrom(address(this), msg.sender, tokenID);
+        ERC721(address(this)).transferFrom(address(this), msg.sender, tokenID);
         clearListing(tokenID);
         
         emit NFTTransfer(tokenID, msg.sender, "", 0);
