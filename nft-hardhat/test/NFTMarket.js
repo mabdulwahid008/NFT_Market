@@ -168,6 +168,34 @@ describe("NFTMarket", () => {
       expect(args.price).to.equal(0);
     })
   })
+
+  describe("Withdraw", () => {
+    it("Should revert if called by not the owner of the coontract", async () => {
+      await expect(
+        nftMarket.connect(signer[2]).withdrawFunds()
+      ).to.be.revertedWith("Ownable: caller is not the owner")
+    })
+    it("Should transfer the fee to the owner of the contract", async() => {
+      const tokenID = await createNFTAndList(10)
+      let transaction = await nftMarket.connect(signer[1]).buyNFT(tokenID, { value: 10})
+      let receipt = await transaction.wait()
+      await new Promise((r) => setTimeout(r, 100))
+
+      const beforeContractBalance = await nftMarket.provider.getBalance(nftMarket.address)
+
+      await new Promise((r) => setTimeout(r, 100))
+
+      transaction = await nftMarket.withdrawFunds()
+      receipt = transaction.wait()
+
+      const thenContractBalance = await nftMarket.provider.getBalance(nftMarket.address)
+
+      console.log(beforeContractBalance, "    ", thenContractBalance);
+
+    })
+  })
 })
+
+
 
 
