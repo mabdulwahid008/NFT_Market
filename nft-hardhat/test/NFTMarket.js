@@ -175,23 +175,29 @@ describe("NFTMarket", () => {
         nftMarket.connect(signer[2]).withdrawFunds()
       ).to.be.revertedWith("Ownable: caller is not the owner")
     })
+
     it("Should transfer the fee to the owner of the contract", async() => {
-      const tokenID = await createNFTAndList(10)
-      let transaction = await nftMarket.connect(signer[1]).buyNFT(tokenID, { value: 10})
-      let receipt = await transaction.wait()
+      const contractBalance = await nftMarket.provider.getBalance(nftMarket.address)
+
+      const initialOwnerBalance = await signer[0].getBalance()
+
+      const transaction = await nftMarket.withdrawFunds()
+      const receipt = await transaction.wait()
+      const gas = receipt.gasUsed.mul(receipt.effectiveGasPrice)
+
       await new Promise((r) => setTimeout(r, 100))
 
-      const beforeContractBalance = await nftMarket.provider.getBalance(nftMarket.address)
+      const newOwnerBalance = await signer[0].getBalance()
 
-      await new Promise((r) => setTimeout(r, 100))
+      const transfer = newOwnerBalance.add(gas).sub(initialOwnerBalance)
+      expect(transfer).to.equal(contractBalance)
 
-      transaction = await nftMarket.withdrawFunds()
-      receipt = transaction.wait()
+    })
 
-      const thenContractBalance = await nftMarket.provider.getBalance(nftMarket.address)
-
-      console.log(beforeContractBalance, "    ", thenContractBalance);
-
+    it("Should revert if contract balance is 0", async () => {
+      await expect(
+        nftMarket.withdrawFunds()
+      ).to.be.revertedWith("NNFTMarket: Balance is 0")
     })
   })
 })
