@@ -47,6 +47,7 @@ describe("NFTMarket", () => {
       const args = receipt.events[1].args;
       expect(args.tokenID).to.equal(tokenID)
       expect(args.tokenURI).to.equal(tokenURI)
+      expect(args.from).to.equal(ethers.constants.AddressZero)
       expect(args.to).to.equal(ownerAddress)
       expect(args.price).to.equal(0)
     })
@@ -80,6 +81,7 @@ describe("NFTMarket", () => {
       // Assert that NFTTransfer event has correct args
       expect(args.tokenID).to.equal(tokenID)
       expect(args.tokenURI).to.equal("")
+      expect(args.from).to.equal(signer[0].address)
       expect(args.to).to.equal(nftMarket.address)
       expect(args.price).to.equal(price)
     })
@@ -133,6 +135,7 @@ describe("NFTMarket", () => {
       expect(args.tokenID).to.equal(tokenID)
       expect(args.tokenURI).to.equal("")
       expect(args.to).to.equal(signer[1].address)
+      expect(args.from).to.equal(nftMarket.address)
       expect(args.price).to.equal(0)
     })
   })
@@ -165,6 +168,7 @@ describe("NFTMarket", () => {
       // expect(args.tokenID).to.equal(tokenID);
       expect(args.to).to.equal(signer[0].address);
       expect(args.tokenURI).to.equal("");
+      expect(args.from).to.equal(nftMarket.address);
       expect(args.price).to.equal(0);
     })
   })

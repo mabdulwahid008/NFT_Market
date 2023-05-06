@@ -24,7 +24,7 @@ contract NFTMarket is ERC721URIStorage, Ownable{
     // if tokenURI is not an empty string => NFT created
     // if price is not 0 => NFT listed for sale
     // if price is 0 && tokenURI is empty => NFT transfered (either bought or cancel listing)
-    event NFTTransfer(uint256 tokenID, address to, string tokenURI, uint256 price);
+    event NFTTransfer(uint256 tokenID, address from, address to, string tokenURI, uint256 price);
 
     // Create NFT
     function createNFT(string calldata tokenURI) public{
@@ -33,7 +33,7 @@ contract NFTMarket is ERC721URIStorage, Ownable{
         _safeMint(msg.sender, currentID);
         _setTokenURI(currentID, tokenURI);
 
-        emit NFTTransfer(currentID, msg.sender, tokenURI, 0);
+        emit NFTTransfer(currentID, address(0), msg.sender, tokenURI, 0);
     }
 
     // List NFT
@@ -42,7 +42,7 @@ contract NFTMarket is ERC721URIStorage, Ownable{
         transferFrom(msg.sender, address(this), tokenID);
         _listings[tokenID] = NFTListing(price, msg.sender);
 
-        emit NFTTransfer(tokenID, address(this), "", price);
+        emit NFTTransfer(tokenID, msg.sender, address(this), "", price);
     }
 
     // Buy NFT
@@ -54,7 +54,7 @@ contract NFTMarket is ERC721URIStorage, Ownable{
         payable(listing.seller).transfer(listing.price.mul(95).div(100)); // price * 95 / 100; deducting 5% of the price as fee
         clearListing(tokenID);
 
-        emit NFTTransfer(tokenID, msg.sender, "", 0);
+        emit NFTTransfer(tokenID, address(this), msg.sender, "", 0);
     }
 
     // Cancel Listing
@@ -65,7 +65,7 @@ contract NFTMarket is ERC721URIStorage, Ownable{
         ERC721(address(this)).transferFrom(address(this), msg.sender, tokenID);
         clearListing(tokenID);
         
-        emit NFTTransfer(tokenID, msg.sender, "", 0);
+        emit NFTTransfer(tokenID, address(this), msg.sender, "", 0);
     }
 
     // Clear Lisiting from struct
