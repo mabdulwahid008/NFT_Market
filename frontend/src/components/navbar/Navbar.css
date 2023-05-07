@@ -1,0 +1,41 @@
+.navbar{
+    height: 85px;
+    width: 100%;
+    background-color: black;
+    box-shadow: 0px 1px 40px 1px #00706e41;
+}
+.navbar > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px 50px 15px;
+}
+.logo{
+    color: white;
+    font-weight: 600;
+    font-size: 25px;
+}
+.nav{
+    display: flex;
+    gap: 10px;
+}
+.nav > a {
+    padding: 5px 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+}
+
+.connect-btn{
+    padding: 7px 15px 5px;
+    color: white;
+    background-color: #00706F;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 20px;
+}
