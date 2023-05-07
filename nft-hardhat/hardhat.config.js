@@ -5,9 +5,14 @@ require("dotenv").config()
 module.exports = {
   solidity: "0.8.18",
    networks: {
-    goerli:{
+    sepolia:{
       url: process.env.URL,
       accounts: [process.env.PRIVATE_KEY]
     }
-   }
+   },
+   etherscan: {
+    apiKey: {
+      sepolia: process.env.ETTHERSCAN_API,
+    },
+  },
 };
