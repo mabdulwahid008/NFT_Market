@@ -29,13 +29,13 @@
     background-color: #1e1e1e;
 }
 a.active{
-    background-color: #00706F;
+    background-color: var(--primaryColor);
 }
 
 .connect-btn{
     padding: 7px 15px 5px;
     color: white;
-    background-color: #00706F;
+    background-color: var(--primaryColor);
     border: none;
     outline: none;
     cursor: pointer;

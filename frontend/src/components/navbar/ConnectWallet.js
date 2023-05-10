@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { SignerContext } from '../../state/signer'
-import Avatar from '../avatar/Avatar'
+import Avatar from './Avatar'
 
 function ConnectWallet() {
   const { address, loading, connectWallet} = useContext(SignerContext)
