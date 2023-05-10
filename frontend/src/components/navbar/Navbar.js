@@ -9,9 +9,10 @@ function Navbar() {
         <div>
             <h1 className='logo'>NFT Market</h1>
             <div className='nav'>
-                <NavLink>Home</NavLink>
-                <NavLink>Buy</NavLink>
-                <NavLink>Owned</NavLink>
+                <NavLink to='/'>Home</NavLink>
+                <NavLink to='/buy'>Buy</NavLink>
+                <NavLink to='/owned'>Owned</NavLink>
+                <NavLink to='/create'>Create</NavLink>
             </div>
             <ConnectWallet/>
         </div>

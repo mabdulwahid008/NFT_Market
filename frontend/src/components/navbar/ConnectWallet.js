@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { SignerContext } from '../../state/signer'
+import Avatar from '../avatar/Avatar'
 
 function ConnectWallet() {
+  const { address, loading, connectWallet} = useContext(SignerContext)
+
+  if(address) 
+    return <Avatar address={address}/>
   return (
-    <>
-     <button className='connect-btn'>Connect Wallet</button> 
-    </>
+    <button className='connect-btn' onClick={connectWallet}>{loading ? "Connecting" : "Connect Wallet"}</button> 
   )
 }
 
