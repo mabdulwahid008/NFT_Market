@@ -9,6 +9,9 @@ typechain-types
 cache
 artifacts
 
+# Grapgh
+nft_market
+
 # dependencies
 frontend/node_modules
 frontend/.pnp

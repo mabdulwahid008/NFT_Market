@@ -64,6 +64,10 @@ function CreateForm() {
             const transaction = await contract.createNFT(URI)
             await transaction.wait()
             alert('NFT Created')
+            setNftData({image: null, name:'', description:''})
+            setImage(img)
+            document.getElementById('name').value = ''
+            document.getElementById('description').value = ''
         }
         setLoading(false)
     }
@@ -79,11 +83,11 @@ function CreateForm() {
         <div>
             <div>
                 <label>Name</label>
-                <input type='text' name='name' required onChange={onChange}/>
+                <input type='text' defaultValue={nftData.name} id='name' name='name' required onChange={onChange}/>
             </div>
             <div>
                 <label>Description</label>
-                <textarea name='description' onChange={onChange}></textarea>
+                <textarea name='description' id='description' defaultValue={nftData.description} onChange={onChange}></textarea>
             </div>
             <div>
                 <button className='btn' disabled={loading? true : false}>{loading? 'Please Wait' : "Create NFT"}</button>
