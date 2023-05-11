@@ -32,6 +32,7 @@ const SignerProvider = (props) => {
             const signer = provider.getSigner()
             const address = await signer.getAddress()
             setAddress(address)
+            setSigner(signer)
         } catch (err){
             console.log(err);
         }
