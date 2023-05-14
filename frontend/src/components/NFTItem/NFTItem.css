@@ -1,0 +1,33 @@
+.owned{
+    padding: 50px 150px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.nft-item{
+    background-color: #161616;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.nft-item > img {
+    height: 260px;
+    width: 310px;
+    object-fit: cover;
+}
+.nft-item > div {
+    padding: 10px 0px;
+}
+.nft-item > div > h3 {
+    font-size: 22px;
+    font-weight: 400;
+}
+.nft-item > div > p{
+    font-size: 14px;
+}
+.nft-view{
+    width: 100% !important;
+}

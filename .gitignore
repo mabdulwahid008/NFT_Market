@@ -10,7 +10,7 @@ cache
 artifacts
 
 # Grapgh
-nft_market
+nftmarket
 
 # dependencies
 frontend/node_modules
