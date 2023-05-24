@@ -1,0 +1,58 @@
+.view-nft{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+}
+.view-nft > img{
+    border-radius: 5px;
+    height: 400px;
+    width: 450px;
+    object-fit: cover;
+}
+.view-nft > div  {
+    width: 50%;
+}
+.view-nft > div > div  {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.view-nft > div > div > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.view-nft > div > div > div  > input,
+.view-nft > div > div > div  > textarea{
+    background-color: transparent;
+    min-height: 20px;
+    max-height: 50px;
+}
+#list{
+    opacity: 0;
+}
+#list:checked ~ .list {
+    height: 100px;
+    padding: 20px;
+}
+#list ~ label {
+    text-decoration: underline;
+    color: var(--primaryColor);
+}
+
+.list{
+    width: 100%;
+    margin-top: -15px;
+    height: 0px;
+    transition: 0.2s ease;
+    background-color: #161616;
+    overflow: hidden;
+}
+.list > input{
+    width: 94%;
+    border: 1px solid #fff;
+}
+.list > button{
+    width: 100%;
+}

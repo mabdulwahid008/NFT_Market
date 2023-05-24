@@ -29,3 +29,8 @@ body{
     border-radius: 5px;
     cursor: pointer;
 }
+
+button:disabled{
+    background-color: #7db6b5;
+    cursor: not-allowed;
+}

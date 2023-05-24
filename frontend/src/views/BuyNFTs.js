@@ -5,12 +5,13 @@ import NFTItem from '../components/NFTItem/NFTItem';
 import '../components/NFTItem/NFTItem.css'
 import { SignerContext } from '../state/signer';
 import ConnectWallet from '../components/navbar/ConnectWallet';
+import { NFT_MARKET_CONTRACT_ADDRESS } from '../constants';
 
-function OwnedNfts() {
+function BuyNFTs() {
     const { address } = useContext(SignerContext)
     const GET_NFT_TRANSFERS = gql`
         query {
-            nfttransfers(where: {to:"${address}"}) {
+            nfttransfers(where: {to:"${NFT_MARKET_CONTRACT_ADDRESS}"}) {
             id
             tokenID
             from
@@ -21,26 +22,18 @@ function OwnedNfts() {
         `;
         const { loading, error, data } = useQuery(GET_NFT_TRANSFERS, { client });
         
-    if(address){
         if (loading) 
             return <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>Loading...</div>
 
         return (
             <div className='owned'>
-            {!data && <ConnectWallet/>}
-            {data?.nfttransfers.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>No NFTs minted </div>}
+            {data?.nfttransfers.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>No NFTs listed for sale </div>}
             {data?.nfttransfers.map((nft)=>{
                 return <NFTItem nft={nft} key={nft.id}/>
             })}
             </div>
         )
-    }
-    else
-        return(
-            <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>
-                <ConnectWallet />
-            </div>
-        )
 }
 
-export default OwnedNfts
+
+export default BuyNFTs
