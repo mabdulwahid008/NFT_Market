@@ -6,6 +6,7 @@ import Create from './views/Create';
 import OwnedNfts from './views/OwnedNfts';
 import ViewNft from './views/ViewNft';
 import BuyNFTs from './views/BuyNFTs';
+import Footer from './components/footer/Footer';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/buy" element={<BuyNFTs />}/>
         <Route path="/nft/view/:id" element={<ViewNft />}/>
       </Routes>
+      <Footer />
     </SignerProvider>
   );
 }

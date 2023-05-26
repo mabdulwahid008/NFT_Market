@@ -8,7 +8,6 @@ import ConnectWallet from '../components/navbar/ConnectWallet';
 import { NFT_MARKET_CONTRACT_ADDRESS } from '../constants';
 
 function BuyNFTs() {
-    const { address } = useContext(SignerContext)
     const GET_NFT_TRANSFERS = gql`
         query {
             nfttransfers(where: {to:"${NFT_MARKET_CONTRACT_ADDRESS}"}) {

@@ -1,5 +1,5 @@
 import { useQuery, gql } from '@apollo/client';
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import  {client}  from '../utills/client'
 import NFTItem from '../components/NFTItem/NFTItem';
 import '../components/NFTItem/NFTItem.css'
@@ -16,10 +16,15 @@ function OwnedNfts() {
             from
             to
             tokenURI
+            price
             }
         }
         `;
         const { loading, error, data } = useQuery(GET_NFT_TRANSFERS, { client });
+
+    useEffect(()=>{
+        
+    }, [data])
         
     if(address){
         if (loading) 
