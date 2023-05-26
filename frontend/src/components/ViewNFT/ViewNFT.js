@@ -18,6 +18,7 @@ function ViewNFT({ nft }) {
     setData(Data)
    }
 
+console.log(nft);
    const listNFT = async() => {
     setLoading(true)
     const contract = new Contract(
@@ -53,14 +54,14 @@ function ViewNFT({ nft }) {
                         <textarea name='description' id='description' defaultValue={data?.description} readOnly></textarea>
                     </div>
                 </div>
-                <div>
+               {nft.price == 0 && <div>
                     <input type='checkbox' id='list'/>
                     <label for="list">List Nft for selling</label>
                     <div className='list'>
                           <input type='numbrt' placeholder='Enter Prce in eth' onChange={(e)=> setListPrice(e.target.value)}/>
                           <button className='btn' onClick={listNFT} disabled={loading? true : false}>{loading? 'Please Wait' :'List for Sale'}</button>
                     </div>
-                </div>
+                </div>}
             </div>
         </div>
     </div>

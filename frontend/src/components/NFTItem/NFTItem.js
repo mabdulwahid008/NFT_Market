@@ -23,7 +23,7 @@ if(data)
         <h3>{data.name}</h3>
         <p>{data.description?.length > 40 ? `${data.description.substr(0, 39)}...` : data.description}</p>
       </div>
-      <Link to={`/nft/view/${nft.id}`}><button className='btn nft-view'>View</button></Link>
+      <Link to={`/nft/view/${nft.tokenID}`}><button className='btn nft-view'>View</button></Link>
     </div>
     </>
   )
