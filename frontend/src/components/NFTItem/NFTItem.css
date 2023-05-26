@@ -3,7 +3,9 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    gap: 25px;
+    column-gap: 25px;
+    overflow: auto;
+    height: 470px;
     flex-wrap: wrap;
 }
 
@@ -11,6 +13,8 @@
     background-color: #161616;
     padding: 10px;
     border-radius: 10px;
+    height: 380px;
+    margin-bottom: 30px;
 }
 
 .nft-item > img {

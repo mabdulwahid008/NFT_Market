@@ -5,7 +5,7 @@ async function main() {
   const nftMarket = await NFTMarket.deploy()
   await nftMarket.deployed()
 
-  console.log("NFTMarket: Contract Address: ", nftMarket.address); // 0x6E9DbD58811d1B0A8c59AE6bb9817B3eE7160d4A
+  console.log("NFTMarket: Contract Address: ", nftMarket.address); // 0x4a7D0c556CfE3251b994e076a2F156765bCEBb28
   console.log("Sleeping...");
 
   // wait for etherscan to recognise the contract

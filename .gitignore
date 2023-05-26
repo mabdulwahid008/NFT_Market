@@ -11,6 +11,7 @@ artifacts
 
 # Grapgh
 nftmarket
+nftmarket_v2
 
 # dependencies
 frontend/node_modules

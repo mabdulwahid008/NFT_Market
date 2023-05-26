@@ -33,7 +33,7 @@ function OwnedNfts() {
         return (
             <div className='owned'>
             {!data && <ConnectWallet/>}
-            {data?.nfttransfers.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>No NFTs minted </div>}
+            {data?.nfttransfers.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}>No NFTs minted </div>}
             {data?.nfttransfers.map((nft)=>{
                 return <NFTItem nft={nft} key={nft.id}/>
             })}

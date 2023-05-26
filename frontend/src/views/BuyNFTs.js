@@ -3,8 +3,6 @@ import React, { useContext } from 'react'
 import  {client}  from '../utills/client'
 import NFTItem from '../components/NFTItem/NFTItem';
 import '../components/NFTItem/NFTItem.css'
-import { SignerContext } from '../state/signer';
-import ConnectWallet from '../components/navbar/ConnectWallet';
 import { NFT_MARKET_CONTRACT_ADDRESS } from '../constants';
 
 function BuyNFTs() {
@@ -22,11 +20,12 @@ function BuyNFTs() {
         const { loading, error, data } = useQuery(GET_NFT_TRANSFERS, { client });
         
         if (loading) 
-            return <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>Loading...</div>
+            return <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height: 500}}>Loading...</div>
+        if(data?.nfttransfers.length === 0)
+            return <div style={{display:'flex', justifyContent: 'center', alignItems:'center',height: 500}}>No NFTs listed for sale </div>
 
         return (
             <div className='owned'>
-            {data?.nfttransfers.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>No NFTs listed for sale </div>}
             {data?.nfttransfers.map((nft)=>{
                 return <NFTItem nft={nft} key={nft.id}/>
             })}
