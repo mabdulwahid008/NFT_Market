@@ -8,7 +8,7 @@ function ViewNft() {
     const {id} = useParams()
     const GET_NFT_TRANSFERS = gql`
     query {
-        nfttransfers(where: {tokenID:"${id}"}, orderBy: price, orderDirection: desc, first: 1) {
+        nfttransfers(where: {tokenID:"${id}"}, orderBy: timeStamp, orderDirection: desc, first: 1) {
         id
         tokenID
         from

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 function NFTItem( { nft } ) {
     const [data, setData] = useState(null)
 
+    // console.log(nft);
    const getData = async()=>{
     const Data = await extractTokenURI(nft.tokenURI);
     setData(Data)

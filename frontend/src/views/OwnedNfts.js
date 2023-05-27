@@ -1,5 +1,5 @@
 import { useQuery, gql } from '@apollo/client';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import  {client}  from '../utills/client'
 import NFTItem from '../components/NFTItem/NFTItem';
 import '../components/NFTItem/NFTItem.css'
@@ -8,22 +8,49 @@ import ConnectWallet from '../components/navbar/ConnectWallet';
 
 function OwnedNfts() {
     const { address } = useContext(SignerContext)
+    const [refienedData, setRefienedData] = useState(null)
     const GET_NFT_TRANSFERS = gql`
         query {
-            nfttransfers(where: {to:"${address}"}) {
+            nfttransfers(orderBy: timeStamp, orderDirection: desc,) {
             id
             tokenID
             from
             to
             tokenURI
             price
+            timeStamp
             }
         }
         `;
         const { loading, error, data } = useQuery(GET_NFT_TRANSFERS, { client });
 
+
+    const refieneDate = () => {
+        if(!data)
+            return;
+        let Data = []
+        // 1. need to filter events where 'to' or 'from' === address (conneccted user)
+        //      a). 'to' means token is directly belong to address
+        //      b). 'from' means token belongs to address via contract
+        const ownedEvents = data?.nfttransfers.filter((event) => (event.to.toLowerCase() === address.toLowerCase() || event.from.toLowerCase() === address.toLowerCase()))
+
+        // 2. Then filter the events of same tokenID
+        for (let i = 0; i < ownedEvents.length; i++) {
+            const eventsOfSameTokenID = ownedEvents.filter((event) => event.tokenID === ownedEvents[0].tokenID)
+            // 3. then pushing latest event of tokenID
+                // check before pushing that this event is already in array 
+            const check = Data.some((event) => event = eventsOfSameTokenID[0])
+            if(!check)
+                Data.push(eventsOfSameTokenID[0])
+        }
+        // 4. thats refiend data
+        setRefienedData(Data)
+
+
+    }
+
     useEffect(()=>{
-        
+        refieneDate()
     }, [data])
         
     if(address){
@@ -32,9 +59,9 @@ function OwnedNfts() {
 
         return (
             <div className='owned'>
-            {!data && <ConnectWallet/>}
-            {data?.nfttransfers.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}>No NFTs minted </div>}
-            {data?.nfttransfers.map((nft)=>{
+            {refienedData?.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}>No NFTs minted </div>}
+            {refienedData?.map((nft)=>{
+                console.log(nft);
                 return <NFTItem nft={nft} key={nft.id}/>
             })}
             </div>

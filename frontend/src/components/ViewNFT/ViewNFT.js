@@ -12,13 +12,29 @@ function ViewNFT({ nft }) {
     const [loading, setLoading] = useState(false)
     const [listPrice, setListPrice] = useState(0)
 
-
    const getData = async()=>{
     const Data = await extractTokenURI(nft.tokenURI);
     setData(Data)
    }
 
-console.log(nft);
+   const cancelList = async() => {
+    setLoading(true)
+    const contract = new Contract(
+        NFT_MARKET_CONTRACT_ADDRESS,
+        NFT_MARKET_CONTRACT_ABI,
+        signer
+    )
+    try {
+        const transaction = await contract.cancelListing(nft.tokenID)
+        const receipt = await transaction.wait()
+        window.alert('NFT removed from listings for sale')
+    } catch (error) {
+        window.alert(error.message)
+        console.log(error);
+    }
+    setLoading(false)
+   }
+
    const listNFT = async() => {
     setLoading(true)
     const contract = new Contract(
@@ -29,6 +45,7 @@ console.log(nft);
     try {
         const transaction = await contract.listNFT(nft.tokenID, parseInt(listPrice))
         const receipt = await transaction.wait()
+        window.alert("NFT listed for sale")
     } catch (error) {
         window.alert(error.message)
         console.log(error);
@@ -54,14 +71,21 @@ console.log(nft);
                         <textarea name='description' id='description' defaultValue={data?.description} readOnly></textarea>
                     </div>
                 </div>
-               {nft.price == 0 && <div>
+                <div>
                     <input type='checkbox' id='list'/>
-                    <label for="list">List Nft for selling</label>
+                    <label for="list">NFT Listing</label>
                     <div className='list'>
+                    {nft.price == 0 ? <>
                           <input type='numbrt' placeholder='Enter Prce in eth' onChange={(e)=> setListPrice(e.target.value)}/>
                           <button className='btn' onClick={listNFT} disabled={loading? true : false}>{loading? 'Please Wait' :'List for Sale'}</button>
+                        </>
+                        :
+                        <>
+                        <p>You listed this NFT for {nft.price} ETH</p>
+                        <button className='btn' onClick={cancelList} disabled={loading? true : false}>{loading? 'Please Wait' :'Cancel Listing'}</button>
+                        </>}
                     </div>
-                </div>}
+                </div>
             </div>
         </div>
     </div>
