@@ -32,7 +32,7 @@ function OwnedNfts() {
         // 1. need to filter events where 'to' or 'from' === address (conneccted user)
         //      a). 'to' means token is directly belong to address
         //      b). 'from' means token belongs to address via contract
-        const ownedEvents = data?.nfttransfers.filter((event) => (event.to.toLowerCase() === address.toLowerCase() || event.from.toLowerCase() === address.toLowerCase()))
+        const ownedEvents = data?.nfttransfers.filter((event) => (event.to.toLowerCase() === address?.toLowerCase() || event.from.toLowerCase() === address?.toLowerCase()))
 
         // 2. Then filter the events of same tokenID
         for (let i = 0; i < ownedEvents.length; i++) {
