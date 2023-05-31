@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { extractTokenURI } from '../../utills'
 import { Link } from 'react-router-dom'
 
-function NFTItem( { nft } ) {
+function NFTItem( { nft, link } ) {
     const [data, setData] = useState(null)
 
     // console.log(nft);
@@ -24,7 +24,7 @@ if(data)
         <h3>{data.name}</h3>
         <p>{data.description?.length > 40 ? `${data.description.substr(0, 39)}...` : data.description}</p>
       </div>
-      <Link to={`/nft/view/${nft.tokenID}`}><button className='btn nft-view'>View</button></Link>
+      <Link to={`${link}/${nft.tokenID}`}><button className='btn nft-view'>View</button></Link>
     </div>
     </>
   )

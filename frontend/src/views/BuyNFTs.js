@@ -45,7 +45,6 @@ function BuyNFTs() {
                     listed.push(events[0])
             }
         }
-        console.log(listed);
         setRefienedData(listed)
     }
 
@@ -61,7 +60,7 @@ function BuyNFTs() {
     return (
         <div className='owned'>
         {refinedData?.map((nft)=>{
-            return <NFTItem nft={nft} key={nft.id}/>
+            return <NFTItem nft={nft} key={nft.id} link="/nft/buy"/>
         })}
         </div>
     )

@@ -29,20 +29,32 @@ function OwnedNfts() {
         if(!data)
             return;
         let Data = []
+        const allEvents = data?.nfttransfers
+
         // 1. need to filter events where 'to' or 'from' === address (conneccted user)
         //      a). 'to' means token is directly belong to address
         //      b). 'from' means token belongs to address via contract
         const ownedEvents = data?.nfttransfers.filter((event) => (event.to.toLowerCase() === address?.toLowerCase() || event.from.toLowerCase() === address?.toLowerCase()))
 
+       
+
+
         // 2. Then filter the events of same tokenID
         for (let i = 0; i < ownedEvents.length; i++) {
-            const eventsOfSameTokenID = ownedEvents.filter((event) => event.tokenID === ownedEvents[0].tokenID)
+            const owendEventsOfSameTokenID = ownedEvents.filter((event) => event.tokenID === ownedEvents[0].tokenID)
+            const allEventsOfSameTokenID = allEvents.filter((event) => event.tokenID === ownedEvents[0].tokenID)
+            // console.log(owendEventsOfSameTokenID);
+            // console.log(allEventsOfSameTokenID);
+            if(allEventsOfSameTokenID[0].timeStamp > owendEventsOfSameTokenID[0].timeStamp){
+                continue;
+            }
             // 3. then pushing latest event of tokenID
                 // check before pushing that this event is already in array 
-            const check = Data.some((event) => event = eventsOfSameTokenID[0])
+            const check = Data.some((event) => event = owendEventsOfSameTokenID[0])
             if(!check)
-                Data.push(eventsOfSameTokenID[0])
+                Data.push(owendEventsOfSameTokenID[0])
         }
+        console.log(Data);
         // 4. thats refiend data
         setRefienedData(Data)
 
@@ -61,8 +73,7 @@ function OwnedNfts() {
             <div className='owned'>
             {refienedData?.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}>No NFTs minted </div>}
             {refienedData?.map((nft)=>{
-                console.log(nft);
-                return <NFTItem nft={nft} key={nft.id}/>
+                return <NFTItem nft={nft} key={nft.id} link="/nft/view"/>
             })}
             </div>
         )

@@ -1,10 +1,11 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import  {client}  from '../utills/client'
 import { gql, useQuery } from '@apollo/client';
 import ViewNFT from '../components/ViewNFT/ViewNFT';
+import BuyNFT from '../components/buyNFT/BuyNFT'
 
-function ViewNft() {
+function ViewOwnedNft() {
     const {id} = useParams()
     const GET_NFT_TRANSFERS = gql`
     query {
@@ -24,8 +25,9 @@ function ViewNft() {
     }
     if(data)
     return (
+        // <BuyNFT nft = {data?.nfttransfers[0]}/>
         <ViewNFT nft = {data?.nfttransfers[0]}/>
     )
 }
 
-export default ViewNft
+export default ViewOwnedNft
