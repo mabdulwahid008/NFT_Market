@@ -1,14 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { SignerContext } from '../../state/signer'
 import { NFT_MARKET_CONTRACT_ABI, NFT_MARKET_CONTRACT_ADDRESS } from '../../constants'
-import { Contract } from 'ethers'
+import { Contract, utils } from 'ethers'
 import { extractTokenURI } from '../../utills'
 
 function BuyNFT({nft}) {
     const { signer, address } = useContext(SignerContext)
 
+    
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [disabled, setDisabled] = useState(false)
+    
 
     const getData = async()=>{
         const Data = await extractTokenURI(nft.tokenURI);
@@ -27,7 +30,7 @@ function BuyNFT({nft}) {
             signer
         )
         try {
-            const transaction = await contract.buyNFT(nft.tokenID, {value: nft.price})
+            const transaction = await contract.buyNFT(nft.tokenID, {value: nft.price}) // nft.price is in wei
             const receipt = await transaction.wait()
             window.alert('You successfully bought NFT')
         } catch (error) {
@@ -37,6 +40,12 @@ function BuyNFT({nft}) {
         setLoading(false)
        }
        
+       useEffect(()=>{
+        if(address?.toLowerCase() == nft.from.toLowerCase()){
+            setDisabled(true)
+        }
+       }, [address])
+
   return (
     <div className='container'>
     <div className='view-nft'>
@@ -57,9 +66,9 @@ function BuyNFT({nft}) {
                 <label for="list">NFT Listing</label>
                 <div className='list'>
                         <div>
-                            <p>Nft listed for sale for {nft.price} ETH</p>
+                            <p>Nft listed for sale for {utils.formatEther(nft.price)} ETH</p>
                             <p>Owner: {nft.from}</p>
-                            <button className='btn'onClick={buy} disabled={loading? true : false}>{loading? 'Please Wait' :'Buy'}</button>
+                            {!disabled && <button id='btn' className='btn'onClick={buy} disabled={loading? true : false}>{loading? 'Please Wait' :'Buy'}</button>}
                         </div>
                 </div>
             </div>

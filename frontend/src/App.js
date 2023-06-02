@@ -7,12 +7,11 @@ import OwnedNfts from './views/OwnedNfts';
 import ViewOwnedNft from './views/ViewOwnedNft';
 import BuyNFTs from './views/BuyNFTs';
 import Footer from './components/footer/Footer';
-import ViewListedNFT from './ViewListedNFT';
+import ViewListedNFT from './views/ViewListedNFT';
 
 
 function App() {
   
-
 
   return (
     <SignerProvider>

@@ -15,9 +15,8 @@ const SignerProvider = (props) => {
         setLoading(true)
         try{
             const web3modal = new Web3Modal({
-                network: 'sepolia',
-                providerOptions: {},
-                disableInjectedProvider: false,
+                network: "sepolia",
+                disableInjectedProvider: false
             })
             const instance = await web3modal.connect()
             const provider = new providers.Web3Provider(instance)

@@ -63,7 +63,7 @@ function OwnedNfts() {
 
     useEffect(()=>{
         refieneDate()
-    }, [data])
+    }, [data, address])
         
     if(address){
         if (loading) 

@@ -1,8 +1,8 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import  {client}  from './utills/client'
+import  {client}  from '../utills/client'
 import { gql, useQuery } from '@apollo/client';
-import BuyNFT from './components/buyNFT/BuyNFT';
+import BuyNFT from '../components/buyNFT/BuyNFT';
 
 function ViewListedNFT() {
     const {id} = useParams()

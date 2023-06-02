@@ -61,7 +61,7 @@ function ViewNFT({ nft }) {
         signer
     )
     try {
-        const transaction = await contract.listNFT(nft.tokenID, parseInt(listPrice))
+        const transaction = await contract.listNFT(nft.tokenID, utils.parseEther(listPrice))
         const receipt = await transaction.wait()
         window.alert("NFT listed for sale")
     } catch (error) {
@@ -94,7 +94,6 @@ function ViewNFT({ nft }) {
                     <label for="list">NFT Listing</label>
                     <div className='list'>
                         {nft.price == 0 ? <>
-
                             <input type='numbrt' placeholder='Enter Prce in eth' onChange={(e)=> setListPrice(e.target.value)}/>
                             <button className='btn' onClick={listNFT} disabled={loading? true : false}>{loading? 'Please Wait' :'List for Sale'}</button>
                             </>
