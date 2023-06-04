@@ -5,7 +5,7 @@ import { Contract, utils } from 'ethers'
 import { extractTokenURI } from '../../utills'
 
 function BuyNFT({nft}) {
-    const { signer, address } = useContext(SignerContext)
+    const { signer, address, refreash, setRefreash } = useContext(SignerContext)
 
     
     const [data, setData] = useState(null)
@@ -32,6 +32,7 @@ function BuyNFT({nft}) {
         try {
             const transaction = await contract.buyNFT(nft.tokenID, {value: nft.price}) // nft.price is in wei
             const receipt = await transaction.wait()
+            setRefreash(!refreash)
             window.alert('You successfully bought NFT')
         } catch (error) {
             window.alert(error.message)

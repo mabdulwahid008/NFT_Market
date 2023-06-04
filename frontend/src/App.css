@@ -34,3 +34,19 @@ button:disabled{
     background-color: #7db6b5;
     cursor: not-allowed;
 }
+
+.mobile{
+    display: none;
+}
+
+@media screen and (max-width: 762px) {
+    .mobile{
+        height: 100vh;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+    .navbar, .container{
+    display: none ;
+    }
+}

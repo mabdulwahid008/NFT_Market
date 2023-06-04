@@ -3,21 +3,20 @@ import { useLocation, useParams } from 'react-router-dom'
 import  {client}  from '../utills/client'
 import { gql, useQuery } from '@apollo/client';
 import ViewNFT from '../components/ViewNFT/ViewNFT';
-import BuyNFT from '../components/buyNFT/BuyNFT'
 
 function ViewOwnedNft() {
     const {id} = useParams()
     const GET_NFT_TRANSFERS = gql`
-    query {
-        nfttransfers(where: {tokenID:"${id}"}, orderBy: timeStamp, orderDirection: desc, first: 1) {
-        id
-        tokenID
-        from
-        to
-        tokenURI
-        price
+        query {
+            nfttransfers(where: {tokenID:"${id}"}, orderBy: timeStamp, orderDirection: desc, first: 1) {
+            id
+            tokenID
+            from
+            to
+            tokenURI
+            price
+            }
         }
-    }
     `;
     const { loading, error, data } = useQuery(GET_NFT_TRANSFERS, { client });
     if(loading){
@@ -25,7 +24,6 @@ function ViewOwnedNft() {
     }
     if(data)
     return (
-        // <BuyNFT nft = {data?.nfttransfers[0]}/>
         <ViewNFT nft = {data?.nfttransfers[0]}/>
     )
 }

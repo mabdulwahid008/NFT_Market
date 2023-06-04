@@ -1,13 +1,13 @@
 import { useQuery, gql } from '@apollo/client';
 import React, { useContext, useEffect, useState } from 'react'
-import  {client}  from '../utills/client'
+import { client } from '../utills/client'
 import NFTItem from '../components/NFTItem/NFTItem';
 import '../components/NFTItem/NFTItem.css'
 import { SignerContext } from '../state/signer';
 import ConnectWallet from '../components/navbar/ConnectWallet';
 
 function OwnedNfts() {
-    const { address } = useContext(SignerContext)
+    const { address, setAllevents } = useContext(SignerContext)
     const [refienedData, setRefienedData] = useState(null)
     const GET_NFT_TRANSFERS = gql`
         query {
@@ -36,9 +36,6 @@ function OwnedNfts() {
         //      b). 'from' means token belongs to address via contract
         const ownedEvents = data?.nfttransfers.filter((event) => (event.to.toLowerCase() === address?.toLowerCase() || event.from.toLowerCase() === address?.toLowerCase()))
 
-       
-
-
         // 2. Then filter the events of same tokenID
         for (let i = 0; i < ownedEvents.length; i++) {
             const owendEventsOfSameTokenID = ownedEvents.filter((event) => event.tokenID === ownedEvents[0].tokenID)
@@ -54,7 +51,6 @@ function OwnedNfts() {
             if(!check)
                 Data.push(owendEventsOfSameTokenID[0])
         }
-        console.log(Data);
         // 4. thats refiend data
         setRefienedData(Data)
 
@@ -69,14 +65,17 @@ function OwnedNfts() {
         if (loading) 
             return <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>Loading...</div>
 
-        return (
-            <div className='owned'>
-            {refienedData?.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}>No NFTs minted </div>}
-            {refienedData?.map((nft)=>{
-                return <NFTItem nft={nft} key={nft.id} link="/nft/view"/>
-            })}
-            </div>
-        )
+        if(data){
+            // setAllevents(data.nfttransfers)
+            return (
+                <div className='owned'>
+                {refienedData?.length === 0 && <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}>No NFTs minted </div>}
+                {refienedData?.map((nft)=>{
+                    return <NFTItem nft={nft} key={nft.id} link="/nft/view"/>
+                })}
+                </div>
+            )
+        }
     }
     else
         return(

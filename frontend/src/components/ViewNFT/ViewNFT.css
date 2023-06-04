@@ -6,7 +6,8 @@
 }
 .view-nft > img{
     border-radius: 5px;
-    height: 400px;
+    min-height: 400px;
+    max-height: auto;
     width: 450px;
     object-fit: cover;
 }
@@ -57,3 +58,36 @@
 .list > button{
     width: 100%;
 }
+
+table {
+    border: 1px dashed #ffffff70;
+    border-radius: 5px;
+    padding: 15px 20px 20px;
+    margin-top: -10px;
+    width: 87vh;
+}
+th, td {
+    text-align: left;
+}
+tr{
+    padding-bottom: 20px;
+}
+td {
+    font-size: 14px;
+    color: #ffffffa5
+}
+/* .history > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row !important;
+}
+.history > div > label {
+    width: 33%;
+}
+.history> div > p {
+    font-size: 12px;
+    line-height: 0px;
+    padding: 5px 0px 0px;
+    color: #ffffffa5
+} */
