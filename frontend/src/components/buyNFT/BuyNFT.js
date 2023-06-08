@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { SignerContext } from '../../state/signer'
 import { NFT_MARKET_CONTRACT_ABI, NFT_MARKET_CONTRACT_ADDRESS } from '../../constants'
 import { Contract, utils } from 'ethers'
-import { extractTokenURI } from '../../utills'
+import { extractTokenURI, minifyAddress } from '../../utills'
 
 function BuyNFT({nft}) {
-    const { signer, address, refreash, setRefreash } = useContext(SignerContext)
+    const { signer, address, refreash, setRefreash, getHistory, tokenHistory } = useContext(SignerContext)
 
     
     const [data, setData] = useState(null)
@@ -18,9 +18,15 @@ function BuyNFT({nft}) {
         setData(Data)
     }
 
+    setInterval(()=> {
+        if(!tokenHistory)
+            getHistory(nft.tokenID)
+        }
+    ,100)
+
     useEffect(()=>{
         getData()
-    },[])
+    },[tokenHistory])
 
     const buy = async() => {
         setLoading(true)
@@ -69,10 +75,29 @@ function BuyNFT({nft}) {
                         <div>
                             <p>Nft listed for sale for {utils.formatEther(nft.price)} ETH</p>
                             <p>Owner: {nft.from}</p>
+                           {address && address.toLowerCase() !== nft.from.toLowerCase() && <>
                             {!disabled && <button id='btn' className='btn'onClick={buy} disabled={loading? true : false}>{loading? 'Please Wait' :'Buy'}</button>}
+                            </>}
                         </div>
                 </div>
             </div>
+            <div style={{marginTop:20}}>
+                    <label>History</label>
+                    <table>
+                        <tr>
+                            <th>To</th>
+                            <th>From</th>
+                            <th>Date</th>
+                        </tr>
+                        {tokenHistory?.map((history)=> {
+                            return <tr>
+                                <td>{minifyAddress(history?.to)}</td>
+                                <td>{minifyAddress(history?.from)}</td>
+                                <td>{new Date(history?.timeStamp * 1000).toLocaleString()}</td>
+                            </tr>
+                        })}
+                    </table>
+                </div>
         </div>
     </div>
 </div>

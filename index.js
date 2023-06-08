@@ -5,11 +5,14 @@ const { File, NFTStorage } = require('nft.storage');
 const { tmpdir } = require('os');
 const cors = require('cors')
 require('dotenv').config()
+const path = require('path')
 
 const app = express();
 app.use(cors())
 
 const client = new NFTStorage({ token: `${process.env.NFT_STORAGE_API}` });
+
+app.use(express.static(path.join(__dirname, "frontend/build")))
 
 app.post('/upload', (req, res) => {
   const form = formidable({ multiples: true, uploadDir: tmpdir() });
@@ -46,6 +49,10 @@ app.post('/upload', (req, res) => {
   });
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", 'index.html'));
+});
+
 app.listen(5000, () => {
-  console.log('Server is running on port 3000');
+  console.log('Server is running on port 5000');
 });

@@ -37,7 +37,7 @@ function CreateForm() {
         data.append('description', nftData.description)
         data.append('image', nftData.image)
 
-        const response = await fetch('http://localhost:5000/upload', {
+        const response = await fetch('/upload', {
             method:'POST',
             body: data
         })

@@ -22,10 +22,10 @@ function ViewOwnedNft() {
     if(loading){
         return <div style={{display:'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>Loading...</div>
     }
-    if(data)
+    if(data){
     return (
         <ViewNFT nft = {data?.nfttransfers[0]}/>
-    )
+    )}
 }
 
 export default ViewOwnedNft

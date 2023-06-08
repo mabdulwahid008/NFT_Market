@@ -61,6 +61,8 @@ const SignerProvider = (props) => {
     const { data } = useQuery(GET_NFT_TRANSFERS, { client });
 
     const getHistory = (id) => {
+        if(!allevents)
+            return;
         // getting data of specidied tokenID
         const eventsoFId = allevents?.filter((event)=> event.tokenID === id)
 
@@ -94,7 +96,7 @@ const SignerProvider = (props) => {
                 }
             }
         }
-        setTokenhistory(refined);
+        setTokenhistory(refined.reverse());
     }
 
     useEffect(()=>{

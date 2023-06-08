@@ -55,10 +55,16 @@ function ViewNFT({ nft }) {
     setLoading(false)
    }
 
+   setInterval(()=> {
+    if(!tokenHistory)
+        getHistory(nft.tokenID)
+    }
+    ,100)
+
    useEffect(()=>{
         getData()
-        getHistory(nft.tokenID)
-   },[])
+        
+   },[tokenHistory, address])
 
   return (
     <div className='container'>
@@ -75,6 +81,23 @@ function ViewNFT({ nft }) {
                         <textarea name='description' id='description' defaultValue={data?.description} readOnly></textarea>
                     </div>
                 </div>
+                {address && <div style={{marginTop:-10}}>
+                    <input type='checkbox' id='list'/>
+                    <label htmlFor="list">NFT Listing</label>
+                    <div className='list'>
+                        {nft.price == 0 ? 
+                            <>
+                                <input type='numbrt' placeholder='Enter Prce in eth' onChange={(e)=> setListPrice(e.target.value)}/>
+                                <button className='btn' onClick={listNFT} disabled={loading? true : false}>{loading? 'Please Wait' :'List for Sale'}</button>
+                            </>
+                            :
+                            <>
+                                <p>You listed this NFT for {utils.formatEther(nft.price)} ETH</p>
+                                <button className='btn' onClick={cancelList} disabled={loading? true : false}>{loading? 'Please Wait' :'Cancel Listing'}</button>
+                            </>
+                        }
+                    </div>
+                </div>}
                 <div style={{marginTop:20}}>
                     <label>History</label>
                     <table>
@@ -91,23 +114,6 @@ function ViewNFT({ nft }) {
                             </tr>
                         })}
                     </table>
-                </div>
-                <div>
-                    <input type='checkbox' id='list'/>
-                    <label htmlFor="list">NFT Listing</label>
-                    <div className='list'>
-                        {nft.price == 0 ? 
-                            <>
-                                <input type='numbrt' placeholder='Enter Prce in eth' onChange={(e)=> setListPrice(e.target.value)}/>
-                                <button className='btn' onClick={listNFT} disabled={loading? true : false}>{loading? 'Please Wait' :'List for Sale'}</button>
-                            </>
-                            :
-                            <>
-                                <p>You listed this NFT for {utils.formatEther(nft.price)} ETH</p>
-                                <button className='btn' onClick={cancelList} disabled={loading? true : false}>{loading? 'Please Wait' :'Cancel Listing'}</button>
-                            </>
-                        }
-                    </div>
                 </div>
             </div>
         </div>
